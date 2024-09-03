@@ -1,6 +1,6 @@
 <template>
   <main class="flex flex-col container px-3 mx-auto">
-    <SearchBar @input-changed="getSuggestions" />
+    <SearchBar @search="getSuggestions" />
     <div class="my-5 flex flex-col gap-4">
       <div
         :key="recipe.id"
@@ -21,24 +21,24 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import type { Recipe } from '../interfaces/recipes.interfaces'
-import { RecipesRepository } from '../services/RecipesRepository'
-import SearchBar from '@/components/SearchBar.vue'
+import { onMounted, ref } from 'vue';
+import type { Recipe } from '../interfaces/recipes';
+import { RecipesService } from '../services/RecipesService';
+import SearchBar from '@/components/SearchBar.vue';
 
-const recipes = ref<Recipe[]>([])
+const recipes = ref<Recipe[]>([]);
 
 onMounted(async () => {
-  const results = await RecipesRepository.getRecipesList({
+  const results = await RecipesService.list({
     from: 0,
     size: 20,
     tags: 'under_30_minutes'
-  })
+  });
 
-  recipes.value?.push(...results.results)
-})
+  recipes.value?.push(...results.results);
+});
 
 const getSuggestions = (value: string) => {
-  console.log('Prefix: ' + value)
-}
+  console.log('Prefix: ' + value);
+};
 </script>
