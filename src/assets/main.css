@@ -3,8 +3,15 @@
 @tailwind utilities;
 
 #app {
-  min-height: 100vh;
+  height: 100vh;
   font-weight: normal;
-  background: rgb(22,22,154);
-  background: linear-gradient(0deg, rgba(22,22,154,1) 0%, rgba(3,81,159,1) 10%, rgba(15,191,222,1) 100%); 
+  background: rgb(22, 22, 154);
+  background: linear-gradient(
+    0deg,
+    rgba(22, 22, 154, 1) 0%,
+    rgba(3, 81, 159, 1) 10%,
+    rgba(15, 191, 222, 1) 100%
+  );
+
+  overflow: scroll;
 }

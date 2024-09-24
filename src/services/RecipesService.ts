@@ -1,5 +1,5 @@
 import { axiosInstance } from './axios';
-import type { ListResponse, RecipeListRequestParams } from '@/interfaces/recipes';
+import type { ListResponse, Recipe, RecipeListRequestParams } from '@/interfaces/recipes';
 import type { SuggestionResults } from '@/interfaces/suggestions';
 
 export class RecipesService {
@@ -25,10 +25,10 @@ export class RecipesService {
     });
     return result.data;
   }
-  static async recipeDetail(recipe_id: number): Promise<SuggestionResults> {
+  static async recipeDetail(id: number): Promise<Recipe> {
     const result = await axiosInstance.get('recipes/get-more-info', {
       params: {
-        recipe_id
+        id
       }
     });
     return result.data;

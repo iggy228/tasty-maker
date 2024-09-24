@@ -1,13 +1,16 @@
 <template>
   <div
     class="relative rounded-full h-12 border-none drop-shadow-md bg-white w-full flex flex-row mt-4 z-10"
+    :class="{ 'focus:outline-ring': focusSearchBar }"
   >
     <input
       type="text"
-      class="w-full bg-transparent mx-4 focus:outline-none text-lg"
+      class="w-full bg-transparent ms-4 text-lg focus:outline-none"
       v-model="inputValue"
       @input="debouncedInput"
       aria-haspopup="true"
+      @focus="focusSearchBar = true"
+      @blur="focusSearchBar = false"
     />
     <button @click="$emit('search', inputValue)" class="flex items-center px-4">
       <font-awesome-icon icon="fa-solid fa-magnifying-glass" size="xl" class="text-gray-900" />
@@ -52,6 +55,7 @@ const emit = defineEmits<{
 const inputValue = ref<string>(props.modelValue ?? '');
 const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
+const focusSearchBar = ref(false);
 
 const debouncedInput = debounce(() => {
   emit('update:modelValue', inputValue.value);
