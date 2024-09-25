@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-col px-3 py-3">
-    <div class="bg-gray-50 rounded-lg py-4">
+  <div class="flex flex-col px-3 py-3 items-center">
+    <LoadingSpinner class="mt-4" v-if="loading" />
+    <div v-else class="bg-gray-50 rounded-lg py-4 flex flex-col">
       <h1 class="text-3xl text-center mb-5 mx-4 text-gray-900">{{ recipe?.name }}</h1>
 
       <div class="mx-3 bg-gray-200 shadow-md rounded-lg">
@@ -28,7 +29,7 @@
             </strong>
             <strong class="flex flex-col">
               <span>Total time: </span>
-              <span> {{ recipe?.total_time_minutes }}min </span>
+              <span>{{ recipe?.total_time_minutes }}min </span>
             </strong>
           </div>
 
@@ -61,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { Recipe } from '@/interfaces/recipes';
 import { RecipesService } from '@/services/RecipesService';
 import { validVideoUrl } from '@/utils';
@@ -70,14 +72,18 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const recipe = ref<Recipe>();
+const loading = ref(false);
 
 const getRecipe = async () => {
   try {
+    loading.value = true;
     const result = await RecipesService.recipeDetail(parseInt(route.params.id as string));
 
     recipe.value = result;
   } catch (e) {
     // TODO error handling
+  } finally {
+    loading.value = false;
   }
 };
 
