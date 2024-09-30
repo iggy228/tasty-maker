@@ -45,6 +45,7 @@ import { SearchBarSuggestion } from '@/interfaces/suggestions';
 const props = defineProps<{
   modelValue?: string;
   suggestions?: SearchBarSuggestion[];
+  debounceTime?: number;
 }>();
 
 const emit = defineEmits<{
@@ -57,13 +58,9 @@ const showDropdown = ref(false);
 const focusSearchBar = ref(false);
 
 // debounce calling function for search after 400ms
-const debouncedSearch = debounce(
-  () => {
-    emit('update:modelValue', inputValue.value);
-  },
-  400,
-  {}
-);
+const debouncedSearch = debounce(() => {
+  emit('update:modelValue', inputValue.value);
+}, props.debounceTime);
 
 const selectSuggestionValue = (searchVal: string) => {
   inputValue.value = searchVal;
