@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce, throttle } from 'lodash';
+import { debounce } from 'lodash';
 import DropdownBox from '@/components/DropdownBox.vue';
 import { ref, watch } from 'vue';
 import { SearchBarSuggestion } from '@/interfaces/suggestions';

@@ -40,6 +40,27 @@
             }}</a></span
           >
         </div>
+
+        <div v-if="recipe?.user_ratings" class="py-2 px-3">
+          <div class="flex justify-between">
+            <span>
+              <font-awesome-icon icon="fa-solid fa-thumbs-up" size="xl" class="text-green-700" />
+              {{ recipe?.user_ratings.count_positive }}
+            </span>
+            <span>
+              <font-awesome-icon icon="fa-solid fa-thumbs-down" size="xl" class="text-red-400" />
+              {{ recipe?.user_ratings.count_negative }}
+            </span>
+          </div>
+          <div class="w-full bg-red-400 rounded-full h-2.5 mt-3">
+            <div
+              class="bg-green-700 h-2.5 rounded-full"
+              :style="{
+                width: `${recipe?.user_ratings.score * 100}%`
+              }"
+            ></div>
+          </div>
+        </div>
       </div>
 
       <div class="mx-4">
