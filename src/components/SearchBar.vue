@@ -7,7 +7,7 @@
       type="text"
       class="w-full bg-transparent ms-4 text-lg focus:outline-none"
       v-model="inputValue"
-      @input="debouncedInput"
+      @input="onInputChanged"
       aria-haspopup="true"
       @focus="focusSearchBar = true"
       @blur="focusSearchBar = false"
@@ -29,7 +29,7 @@
           tabindex="-1"
           @click="selectSuggestionValue(suggestion.search_value)"
         >
-          {{ suggestion.display }}
+          {{ suggestion.display_text }}
         </button>
       </div>
     </DropdownBox>
@@ -37,14 +37,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Suggestion } from '@/interfaces/suggestions';
-import { RecipesService } from '@/services/RecipesService';
-import { debounce } from 'lodash';
+import { debounce, throttle } from 'lodash';
 import DropdownBox from '@/components/DropdownBox.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { SearchBarSuggestion } from '@/interfaces/suggestions';
 
 const props = defineProps<{
   modelValue?: string;
+  suggestions?: SearchBarSuggestion[];
 }>();
 
 const emit = defineEmits<{
@@ -53,29 +53,32 @@ const emit = defineEmits<{
 }>();
 
 const inputValue = ref<string>(props.modelValue ?? '');
-const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
 const focusSearchBar = ref(false);
 
-const debouncedInput = debounce(() => {
-  emit('update:modelValue', inputValue.value);
-  getSuggestions();
-}, 400);
-
-const getSuggestions = async () => {
-  try {
-    const suggestionResult = await RecipesService.getAutoCompleteSuggestions(inputValue.value);
-
-    showDropdown.value = true;
-    suggestions.value = suggestionResult.results;
-  } catch (e) {
-    // TODO error handling
-    console.log(e);
-  }
-};
+// debounce calling function for search after 400ms
+const debouncedSearch = debounce(
+  () => {
+    emit('update:modelValue', inputValue.value);
+  },
+  400,
+  {}
+);
 
 const selectSuggestionValue = (searchVal: string) => {
   inputValue.value = searchVal;
+  showDropdown.value = false;
   emit('search', inputValue.value);
 };
+
+// cancel debounce function if there is in progress and call again debounced search function
+const onInputChanged = () => {
+  debouncedSearch.cancel();
+  debouncedSearch();
+};
+
+watch(
+  () => props.suggestions,
+  (val) => (showDropdown.value = !!val?.length)
+);
 </script>

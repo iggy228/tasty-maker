@@ -5,6 +5,5 @@ import { expect, test } from 'vitest';
 test('display component', () => {
   const wrapper = mount(LoadingSpinner);
 
-  console.log(wrapper.text());
   expect(wrapper.text()).toContain('Loading...');
 });
