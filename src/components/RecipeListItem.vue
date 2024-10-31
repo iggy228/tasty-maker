@@ -1,7 +1,7 @@
 <template>
   <RouterLink
     class="flex flex-row w-full bg-white p-2 rounded-lg h-40 drop-shadow cursor-pointer hover:bg-slate-200 transition-colors"
-    :to="to"
+    :to="to ?? {}"
   >
     <img
       v-if="thumbnailSrc"
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouteLocationRaw } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
 
 defineProps<{
   thumbnailSrc?: string;

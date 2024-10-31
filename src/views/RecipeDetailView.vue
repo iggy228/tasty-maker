@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import { Recipe } from '@/interfaces/recipes';
+import type { Recipe } from '@/interfaces/recipes';
 import { RecipesService } from '@/services/RecipesService';
 import { validVideoUrl } from '@/utils';
 import { ref } from 'vue';

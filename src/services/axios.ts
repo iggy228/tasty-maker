@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_TASTY_URL,
@@ -8,4 +8,4 @@ export const axiosInstance = axios.create({
   },
   timeout: 5000,
   responseType: 'json'
-})
+});

@@ -40,7 +40,7 @@
 import { debounce } from 'lodash';
 import DropdownBox from '@/components/DropdownBox.vue';
 import { ref, watch } from 'vue';
-import { SearchBarSuggestion } from '@/interfaces/suggestions';
+import type { SearchBarSuggestion } from '@/interfaces/suggestions';
 
 const props = defineProps<{
   modelValue?: string;
